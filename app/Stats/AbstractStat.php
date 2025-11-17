@@ -50,12 +50,12 @@ abstract class AbstractStat
     {
         $this->totalResults = count($results);
 
-        if ($this->totalResults === 1) {
-            $this->reportInitialState($results[0]);
-        }
-
-        // Not enough data to check.
+        // Not enough data to check streak, but report initial state if needed.
         if ($this->totalResults < $this->monitor->minutes) {
+            if ($this->totalResults > 0 && $results[0]->lastState === self::UNKNOWN) {
+                $this->reportInitialState($results[0]);
+            }
+
             return false;
         }
 
