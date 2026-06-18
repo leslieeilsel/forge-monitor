@@ -2,7 +2,7 @@
 
 namespace App\Stats;
 
-use TitasGailius\Terminal\Terminal;
+use Illuminate\Support\Facades\Process;
 
 trait ExecuteCommands
 {
@@ -14,14 +14,6 @@ trait ExecuteCommands
      */
     public function executeCommand($command)
     {
-        $output = '';
-
-        $response = Terminal::run($command);
-
-        foreach ($response->lines() as $line) {
-            $output .= $line;
-        }
-
-        return $output;
+        return trim(Process::run($command)->output());
     }
 }
